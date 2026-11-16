@@ -56,6 +56,7 @@ export function board(data) {
     )
     .join('');
   return `
+    <p class="eyebrow">Live board · make.fun</p>
     <h1>Open bounties</h1>
     <p class="sub">Live from make.fun's public API — every pot, fee and deadline as it stands right now. Click a bounty for its rewards, rules and leaderboard.</p>
     <div class="hero">
@@ -83,9 +84,10 @@ export function bounty(b) {
     .join('');
   return `
     <a class="back" href="#/">← All bounties</a>
+    <p class="eyebrow">Bounty · ${esc(b.category ?? b.harnessKind ?? '')}</p>
     <h1>${esc(b.title)}</h1>
     <p class="sub">${esc(b.summary ?? '')}</p>
-    <p>${open ? '<span class="chip open">Open — taking entries</span>' : '<span class="chip closed">Closed — deadline passed</span>'}
+    <p class="chips">${open ? '<span class="chip open">Open — taking entries</span>' : '<span class="chip closed">Closed — deadline passed</span>'}
        <span class="chip">${esc(b.harnessKind ?? '')}</span></p>
     <div class="stats4">
       <div class="stat gold"><b>${pot(b)}</b><span>live pot</span></div>
@@ -138,6 +140,7 @@ export function leaderboard(data) {
   const pages = Math.max(1, Math.ceil(entries.length / LB_PAGE_SIZE));
   return `
     <a class="back" href="#/bounty/${encodeURIComponent(data.competition?.slug ?? '')}">← Back to bounty</a>
+    <p class="eyebrow">Leaderboard · ${esc(data.competition?.slug ?? '')}</p>
     <h1>${esc(title)} — leaderboard</h1>
     <p class="sub">${esc(phase)} · ${entries.length} judged entries · win rate with its 90% interval · size is the dossier in bytes.</p>
     <table>
@@ -161,6 +164,7 @@ export function profile(p) {
     .join('');
   return `
     <a class="back" href="#/">← All bounties</a>
+    <p class="eyebrow">Profile</p>
     <div class="profile">
       ${p.avatar || p.image ? `<img class="avatar" crossorigin="anonymous" src="${esc(imageUrl(p.avatar || p.image))}" alt="" onerror="this.style.display='none'">` : ''}
       <div>
