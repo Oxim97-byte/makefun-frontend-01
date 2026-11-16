@@ -1,6 +1,3 @@
-// Small formatting helpers: API values -> readable text.
-
-/** Escape text for safe insertion into HTML. */
 export function esc(value) {
   return String(value ?? '').replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 }

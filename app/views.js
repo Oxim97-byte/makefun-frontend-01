@@ -1,21 +1,13 @@
-// The four surfaces, each a function from API data to HTML.
-// Every string from the API goes through esc(); every image the API
-// points at loads from make.fun with crossorigin set before its src
-// (make.fun's images send Cross-Origin-Resource-Policy: same-origin).
-
 import { date, esc, money, shortWallet, size, stillOpen, timeLeft, winRate } from './format.js';
 import { imageUrl } from './api.js';
 
-/** The reward as it stands now: the prize plus entry fees paid into it. */
 const pot = (b) => money(b.potUsd ?? b.rewardAmount);
 
-/** Fee chip: '$0.50 fee' or 'Free'. */
 const feeChip = (b) =>
   b.entryFeeUsd
     ? `<span class="chip fee">${money(b.entryFeeUsd)} fee</span>`
     : `<span class="chip free">Free</span>`;
 
-/** Time-left chip: red under a day, green while open, grey when ended. */
 const timeChip = (b) => {
   const ms = new Date(b.deadline).getTime() - Date.now();
   if (ms <= 0) return '<span class="chip closed">ended</span>';
@@ -34,9 +26,7 @@ function soonest(items) {
 }
 
 export function board(data) {
-  // Still-open bounties first (soonest deadline), then ended ones at the
-  // bottom: the API still lists a bounty as open past its deadline until
-  // its results publish, so the deadline — not the status — decides.
+
   const items = [...(data.items ?? [])].sort(
     (a, b) => Number(stillOpen(b)) - Number(stillOpen(a)) || new Date(a.deadline) - new Date(b.deadline),
   );
@@ -108,7 +98,6 @@ export function bounty(b) {
 
 export const LB_PAGE_SIZE = 25;
 
-/** One page of leaderboard rows, for the pager in main.js. */
 export function leaderboardRows(entries, page) {
   return entries
     .slice((page - 1) * LB_PAGE_SIZE, page * LB_PAGE_SIZE)

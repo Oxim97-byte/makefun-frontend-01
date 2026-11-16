@@ -1,15 +1,3 @@
-// A make.fun frontend: board, bounty page, leaderboard and profile, on hash routes.
-//
-//   #/                              the board of open bounties
-//   #/bounty/<slug>                 one bounty: rewards, dates, rules
-//   #/bounty/<slug>/leaderboard     that bounty's leaderboard
-//   #/u/<handle>                    an account's public profile
-//
-// window.__shotReady is false while a page loads and true once its data is
-// on screen, so a screenshot script knows when to capture. Time-left chips
-// tick every 30 seconds by updating their text in place — the page is never
-// rebuilt for a tick — and the leaderboard pager swaps only its rows.
-
 import { getBounties, getBounty, getLeaderboard, getProfile } from './api.js';
 import { board, bounty, leaderboard, leaderboardRows, LB_PAGE_SIZE, profile } from './views.js';
 import { timeLeft } from './format.js';
@@ -22,7 +10,6 @@ function stopTicker() {
   ticker = null;
 }
 
-/** Board countdowns, refreshed in place without rebuilding the page. */
 function startTicker() {
   stopTicker();
   ticker = setInterval(() => {
